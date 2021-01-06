@@ -1,8 +1,12 @@
 {
-    "name": "i9w3b/laravel-menu-manager",
+    "name": "rlb/laravel-menu-manager",
     "description": "Menu Laravel Arrastar/Soltar Como Wordpress",
     "keywords": ["Laravel", "Menu", "Wordpress", "Builder"],
     "authors": [
+        {
+            "name": "Rafael Baiolim",
+            "email": "rafaelbaiolim@gmail.com"
+        },
     	{
             "name": "Marcelo Sena",
             "email": "marcelosenaonline@gmail.com"

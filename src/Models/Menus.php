@@ -2,10 +2,12 @@
 
 namespace Harimayco\Menu\Models;
 
+use App\Traits\BelongsToTenant;
 use Illuminate\Database\Eloquent\Model;
 
 class Menus extends Model
 {
+    use BelongsToTenant;
     protected $table = 'menus';
 
     public function __construct(array $attributes = [])

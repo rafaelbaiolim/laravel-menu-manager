@@ -15,8 +15,12 @@ class CreateMenusWpTable extends Migration
     {
         Schema::create( config('menu.table_prefix') . config('menu.table_name_menus'), function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('clientes_id');
             $table->string('name');
             $table->timestamps();
+            $table->foreign('clientes_id')
+                ->references('id')->on('clientes')
+                ->onDelete('cascade');
         });
     }
 

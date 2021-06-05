@@ -46,4 +46,13 @@ class MenuItems extends Model
     {
         return $this->belongsTo('App\Models\Pagina', 'pagina_id');
     }
+
+    public function getLinkAttribute($val)
+    {
+        if (empty($this->pagina_id)) {
+            return $val;
+        }
+        return \App\Models\Pagina::URL . $this->pagina->slug;
+    }
+
 }

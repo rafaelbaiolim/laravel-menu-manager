@@ -8,7 +8,8 @@ class MenuItems extends Model
 {
 
     protected $table = null;
-    protected $fillable = ['label', 'link', 'icon', 'parent', 'sort', 'class', 'menu', 'depth', 'role_id'];
+    protected $fillable = ['label', 'link', 'icon', 'parent', 'sort', 'class', 'menu',
+        'depth', 'role_id', 'pagina_id'];
 
     public function __construct(array $attributes = [])
     {
@@ -20,6 +21,7 @@ class MenuItems extends Model
     {
         return $this->where("parent", $id)->get();
     }
+
     public function getall($id)
     {
         return $this->where("menu", $id)->orderBy("sort", "asc")->get();
@@ -38,5 +40,10 @@ class MenuItems extends Model
     public function child()
     {
         return $this->hasMany('Harimayco\Menu\Models\MenuItems', 'parent')->orderBy('sort', 'ASC');
+    }
+
+    public function pagina()
+    {
+        return $this->belongsTo('App\Models\Pagina', 'pagina_id');
     }
 }

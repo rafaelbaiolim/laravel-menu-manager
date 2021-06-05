@@ -9,26 +9,27 @@ use Harimayco\Menu\Models\MenuItems;
 
 class MenuController extends Controller
 {
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         if ($request->get('loadmenu') == 1 && $request->get('menu') == 0) {
             $message = 'Select a menu or create a new one';
             if ($request->get('action') == 'deletemenu') {
                 $message = 'Successfully deleted!';
-                msg_toastr($message,'success');
-            }else{
+                msg_toastr($message, 'success');
+            } else {
                 msg($message, 'info');
             }
-            return redirect($request->path().'?action=edit&menu=0');
-        }elseif ($request->get('loadmenu') == 1 && $request->get('menu') > 0) {
+            return redirect($request->path() . '?action=edit&menu=0');
+        } elseif ($request->get('loadmenu') == 1 && $request->get('menu') > 0) {
             $mennn = Menus::find($request->get('menu'))->toArray()['name'];
             $message = 'Menu: ( ' . $mennn . ' ) successfully loaded!';
             if ($request->get('action') == 'newmenu') {
                 $message = 'Menu: ( ' . $mennn . ' ) successfully created!';
-            }elseif ($request->get('action') == 'addcustommenu') {
+            } elseif ($request->get('action') == 'addcustommenu') {
                 $message = 'Menu: ( ' . $mennn . ' ) successfully created!';
             }
-            msg_toastr($message,'success');
-            return redirect($request->path().'?menu='.$request->get('menu'));
+            msg_toastr($message, 'success');
+            return redirect($request->path() . '?menu=' . $request->get('menu'));
         }
         return view(config('menu.blade_view'));
     }
@@ -72,6 +73,7 @@ class MenuController extends Controller
                 $menuitem->link = $value['link'];
                 $menuitem->class = $value['class'];
                 $menuitem->icon = $value['icon'];
+                $menuitem->pagina_id = @$value['pagina_id'];
                 if (config('menu.use_roles')) {
                     $menuitem->role_id = $value['role_id'] ? $value['role_id'] : 0;
                 }
@@ -83,6 +85,7 @@ class MenuController extends Controller
             $menuitem->link = request()->input("url");
             $menuitem->class = request()->input("clases");
             $menuitem->icon = request()->input("icon");
+            $menuitem->pagina_id = request()->input("pagina_id");
             if (config('menu.use_roles')) {
                 $menuitem->role_id = request()->input("role_id") ? request()->input("role_id") : 0;
             }
@@ -98,17 +101,18 @@ class MenuController extends Controller
         $menuitem->label = request()->input("labelmenu");
         $menuitem->link = request()->input("linkmenu");
         $menuitem->icon = request()->input("iconmenu");
+        $menuitem->pagina_id = request()->input("paginaidmenu");
         if (config('menu.use_roles')) {
             $menuitem->role_id = request()->input("rolemenu") ? request()->input("rolemenu") : 0;
         }
         $menuitem->menu = request()->input("idmenu");
         $menuitem->sort = MenuItems::getNextSortRoot(request()->input("idmenu"));
         $menuitem->save();
-        $message = msg_toastr('Updating settings!','info');
+        $message = msg_toastr('Updating settings!', 'info');
         return response()->json([
             'resp' => request()->input("idmenu"),
             'message' => $message
-            ]);
+        ]);
     }
 
     public function generatemenucontrol()

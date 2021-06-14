@@ -14,7 +14,7 @@ class MenuController extends Controller
         if ($request->get('loadmenu') == 1 && $request->get('menu') == 0) {
             $message = 'Select a menu or create a new one';
             if ($request->get('action') == 'deletemenu') {
-                $message = 'Successfully deleted!';
+                $message = 'Item deletado com sucesso!';
                 msg_toastr($message, 'success');
             } else {
                 msg($message, 'info');
@@ -22,11 +22,11 @@ class MenuController extends Controller
             return redirect($request->path() . '?action=edit&menu=0');
         } elseif ($request->get('loadmenu') == 1 && $request->get('menu') > 0) {
             $mennn = Menus::find($request->get('menu'))->toArray()['name'];
-            $message = 'Menu: ( ' . $mennn . ' ) successfully loaded!';
+            $message = 'Menu: ( ' . $mennn . ' ) carregado com sucesso!';
             if ($request->get('action') == 'newmenu') {
-                $message = 'Menu: ( ' . $mennn . ' ) successfully created!';
+                $message = 'Menu: ( ' . $mennn . ' ) cadastrado com sucesso!';
             } elseif ($request->get('action') == 'addcustommenu') {
-                $message = 'Menu: ( ' . $mennn . ' ) successfully created!';
+                $message = 'Menu: ( ' . $mennn . ' ) cadastrado com sucesso!';
             }
             msg_toastr($message, 'success');
             return redirect($request->path() . '?menu=' . $request->get('menu'));
@@ -46,7 +46,7 @@ class MenuController extends Controller
     {
         $menuitem = MenuItems::find(request()->input("id"));
         $menuitem->delete();
-        $message = msg_toastr('Item successfully deleted!');
+        $message = msg_toastr('Item deletado com sucesso!');
         return response()->json($message);
     }
 
@@ -57,9 +57,9 @@ class MenuController extends Controller
         if (count($getall) == 0) {
             $menudelete = Menus::find(request()->input("id"));
             $menudelete->delete();
-            return json_encode(array("resp" => "you delete this item"));
+            return json_encode(array("resp" => "você deletou esse item"));
         } else {
-            return json_encode(array("resp" => "You have to delete all items first", "error" => 1));
+            return json_encode(array("resp" => "Você deletou todos os itens do menu primeiro", "error" => 1));
         }
     }
 
@@ -71,8 +71,8 @@ class MenuController extends Controller
                 $menuitem = MenuItems::find($value['id']);
                 $menuitem->label = $value['label'];
                 $menuitem->link = $value['link'];
-                $menuitem->class = $value['class'];
-                $menuitem->icon = $value['icon'];
+                $menuitem->class = @$value['class'];
+                $menuitem->icon = @$value['icon'];
                 $menuitem->pagina_id = @$value['pagina_id'];
                 if (config('menu.use_roles')) {
                     $menuitem->role_id = $value['role_id'] ? $value['role_id'] : 0;
@@ -91,7 +91,7 @@ class MenuController extends Controller
             }
             $menuitem->save();
         }
-        $message = msg_toastr('Menu updated success!');
+        $message = msg_toastr('Menu atualizado com sucesso!');
         return response()->json($message);
     }
 
@@ -108,7 +108,7 @@ class MenuController extends Controller
         $menuitem->menu = request()->input("idmenu");
         $menuitem->sort = MenuItems::getNextSortRoot(request()->input("idmenu"));
         $menuitem->save();
-        $message = msg_toastr('Updating settings!', 'info');
+        $message = msg_toastr('Atualizando configurações!', 'info');
         return response()->json([
             'resp' => request()->input("idmenu"),
             'message' => $message
@@ -118,8 +118,8 @@ class MenuController extends Controller
     public function generatemenucontrol()
     {
         $menu = Menus::find(request()->input("idmenu"));
-        $menu->name = request()->input("menuname");
-        $menu->save();
+//        $menu->name = request()->input("menuname");
+//        $menu->save();
         if (is_array(request()->input("arraydata"))) {
             foreach (request()->input("arraydata") as $value) {
                 $menuitem = MenuItems::find($value["id"]);

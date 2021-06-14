@@ -74,9 +74,8 @@ function addcustommenu() {
         success: function (response) {
             flashMessage(response.message);
             if (!response.error) {
-                console.log(dat);
                 var newurl = menuwr + '?loadmenu=1&action=addcustommenu&menu=' + response.resp;
-                // window.location = newurl;
+                window.location.reload();
             } else {
                 alert(response.resp);
             }

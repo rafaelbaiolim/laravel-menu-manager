@@ -44,7 +44,7 @@ class MenuItems extends Model
 
     public function pagina()
     {
-        return $this->belongsTo('App\Momedels\Pagina', 'pagina_id');
+        return $this->belongsTo('App\Models\Pagina', 'pagina_id');
     }
 
     public function getLinkAttribute($val)
